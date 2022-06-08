@@ -18,7 +18,4 @@
         registry: quay.io
     - name: import container_lifecycle role
       ansible.builtin.import_role:
-        name: podman_ignition
-    - name: import container_lifecycle role
-      ansible.builtin.import_role:
         name: container_lifecycle
