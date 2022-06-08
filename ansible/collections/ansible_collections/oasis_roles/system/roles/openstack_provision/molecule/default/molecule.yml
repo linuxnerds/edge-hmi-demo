@@ -1,0 +1,28 @@
+driver:
+  name: openstack
+platforms:
+  - name: openstack_provision_default_centos
+  - name: openstack_provision_default_fedora
+provisioner:
+  playbooks:
+    converge: ../shared/playbook.yml
+    openstack:
+      create: ../shared/create.yml
+      destroy: ../shared/destroy.yml
+  inventory:
+    group_vars:
+      all:
+        ansible_ssh_private_key_file: >-
+          {{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/id_rsa_default
+    host_vars:
+      localhost:
+        openstack_provision_servers:
+          - name: openstack_provision_default_centos
+            flavor: ci.m1.tiny
+            image: 'CentOS-7-x86_64-GenericCloud-released-latest'
+            count: 2
+            groups:
+              - test_group
+          - name: openstack_provision_default_fedora
+            flavor: ci.m1.tiny
+            image: Fedora-Cloud-Base-32

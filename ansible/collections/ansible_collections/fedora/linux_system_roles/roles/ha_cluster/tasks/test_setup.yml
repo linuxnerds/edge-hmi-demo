@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: MIT
+# This task configures test systems for testing in the CI environment.
+# Only use this task for testing.
+# This task file resides in `tasks/` so that it can be used from other roles
+# with `include_role` with `tasks_from: filename` directly without the need to
+# provide a relative path. Providing relative path is problematic with
+# collections.
+---
+- name: Set node name to 'localhost' for single-node clusters
+  set_fact:
+    inventory_hostname: localhost
+  when: ansible_play_hosts_all | length == 1
+
+# Test systems may not have repositories available through subscriptions
+- name: Do not try to enable RHEL repositories
+  set_fact:
+    ha_cluster_enable_repos: no
+  when:
+    - ansible_distribution == 'RedHat'

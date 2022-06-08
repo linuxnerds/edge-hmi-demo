@@ -1,0 +1,9 @@
+driver:
+  name: delegated
+platforms:
+  - name: vmware_provision_default
+provisioner:
+  playbooks:
+    converge: ./playbook.yml
+    create: ../shared/create.yml  # Does not create/destroy
+    destroy: ../shared/destroy.yml

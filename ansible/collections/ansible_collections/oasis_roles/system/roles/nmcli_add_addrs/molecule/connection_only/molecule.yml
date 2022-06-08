@@ -1,0 +1,8 @@
+driver:
+  name: containers
+platforms:
+  - name: nmcli_add_addrs_connection_only
+    image: centos:7
+provisioner:
+  playbooks:
+    converge: playbook.yml

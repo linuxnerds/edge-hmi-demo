@@ -1,0 +1,7 @@
+- name: openstack cleanup tasks
+  hosts: all
+  ignore_unreachable: true
+  roles:
+    - name: oasis_roles.system.rhsm
+      rhsm_unregister: true
+      when: (ansible_facts.distribution | default('')) == 'RedHat'

@@ -1,0 +1,26 @@
+- hosts: all
+  vars_files:
+    - "{{ lookup('env', 'MOLECULE_SCENARIO_DIRECTORY') }}/../../../../tests/rhsm.yml"
+  roles:
+    - role: oasis_roles.system.rhsm
+      when: ansible_distribution == 'RedHat'
+      rhsm_repositories:
+        enable:
+          - rhel-7-server-rpms
+          - rhel-7-extras-rpms
+    - role: oasis_roles.system.firewalld
+      firewalld_zone: public
+      firewalld_ports_open:
+        # rpc-bind /usr/lib/firewalld/services/rpc-bind.xml
+        - proto: tcp
+          port: 111
+        - proto: udp
+          port: 111
+        # mountd /usr/lib/firewalld/services/mountd.xml
+        - proto: tcp
+          port: 20048
+        - proto: udp
+          port: 20048
+        # NFSv4 /usr/lib/firewalld/services/nfs.xml
+        - proto: tcp
+          port: 2049

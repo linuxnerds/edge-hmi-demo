@@ -1,0 +1,9 @@
+driver:
+  name: containers
+platforms:
+  - name: timezone_centos8
+    image: greghellings/centos-systemd:8
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /usr/lib/systemd/systemd --system

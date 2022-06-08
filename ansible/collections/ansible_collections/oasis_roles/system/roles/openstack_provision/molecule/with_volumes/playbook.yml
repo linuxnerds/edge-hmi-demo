@@ -1,0 +1,35 @@
+- name: run provision playbook
+  import_playbook: ../shared/playbook.yml
+
+- hosts: test_group
+  become: true
+  tasks:
+    - name: create the mount paths
+      file:
+        path: /mnt/{{ item }}
+        state: directory
+        mode: "0755"
+      with_items: &devices
+        - vdb
+        - vdc
+
+    - name: create partition
+      parted:
+        device: /dev/{{ item }}
+        state: present
+        number: 1
+      with_items: *devices
+
+    - name: create filesystem
+      filesystem:
+        fstype: ext4
+        dev: /dev/{{ item }}1
+      with_items: *devices
+
+    - name: mount the things
+      mount:
+        src: /dev/{{ item }}1
+        path: /mnt/{{ item }}
+        state: mounted
+        fstype: ext4
+      with_items: *devices

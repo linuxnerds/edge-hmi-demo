@@ -1,0 +1,23 @@
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+platforms:
+  - name: localectl-conditional-tests
+    box: generic/oracle8
+provisioner:
+  playbooks:
+    converge: playbook.yml
+scenario:
+  # converge playbook is not idempotent due to test setup and assertions
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - side_effect
+    - verify
+    - destroy

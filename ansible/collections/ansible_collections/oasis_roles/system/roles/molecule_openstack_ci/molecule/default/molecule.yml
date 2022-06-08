@@ -1,0 +1,9 @@
+driver:
+  name: openstack
+platforms:
+  - name: molecule_openstack_ci_default
+provisioner:
+  playbooks:
+    create: create.yml
+    destroy: destroy.yml
+    converge: playbook.yml

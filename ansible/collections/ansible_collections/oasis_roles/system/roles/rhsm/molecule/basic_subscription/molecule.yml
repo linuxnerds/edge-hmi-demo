@@ -1,0 +1,12 @@
+driver:
+  name: openstack
+platforms:
+  - name: rhsm_basic_subscription
+    groups:
+      - rhsm
+provisioner:
+  playbooks:
+    converge: playbook.yml
+  inventory:
+    links:
+      group_vars: ../shared/group_vars

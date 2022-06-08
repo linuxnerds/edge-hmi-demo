@@ -1,0 +1,7 @@
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+platforms:
+  - name: sshd-openstack
+    box: generic/oracle8

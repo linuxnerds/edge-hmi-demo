@@ -1,0 +1,9 @@
+driver:
+  name: containers
+platforms:
+  - name: timezone_centos7
+    image: greghellings/centos-systemd:7
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /usr/lib/systemd/systemd --system

@@ -1,0 +1,5 @@
+driver:
+  name: containers
+platforms:
+  - name: network_scripts_default
+    image: centos:7

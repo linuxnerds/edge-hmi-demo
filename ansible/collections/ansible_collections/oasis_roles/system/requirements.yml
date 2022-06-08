@@ -1,0 +1,4 @@
+roles: []
+collections:
+  community.docker: '>=1.8.0'
+  containers.podman: ''

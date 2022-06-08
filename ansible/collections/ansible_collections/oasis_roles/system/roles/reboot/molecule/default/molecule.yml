@@ -1,0 +1,20 @@
+driver:
+  name: openstack
+platforms:
+  - name: reboot_default
+provisioner:
+  playbooks:
+    converge: playbook.yml
+scenario:
+  # Rebooting is not an idempotent task.
+  test_sequence:
+    - lint
+    - dependency
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - side_effect
+    - verify
+    - destroy

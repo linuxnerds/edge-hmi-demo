@@ -1,0 +1,9 @@
+exclude_paths:
+  - ../.cache/
+  - .cache/
+  - ../roles/*/molecule/*/prepare.yml
+
+skip_list:
+  - "204"
+  - yaml
+use_default_rules: true

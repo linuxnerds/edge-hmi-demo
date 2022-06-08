@@ -1,0 +1,29 @@
+driver:
+  name: openstack
+platforms:
+  - name: rhsm_release_set_unset
+    groups:
+      - rhsm
+provisioner:
+  inventory:
+    links:
+      group_vars: ../shared/group_vars
+  playbooks:
+    converge: playbook.yml
+scenario:
+  test_sequence:
+    - lint
+    - dependency
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    # idempotence is explicitly excluded from the test sequence for this
+    # scenario, because the playbook is intentionally non-idempotent to
+    # allow for inline assertion tasks
+    # - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy

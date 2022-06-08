@@ -1,0 +1,14 @@
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+platforms:
+  - name: nfs-server-oracle8
+    box: generic/oracle8
+    config_options:
+      synced_folder: false
+      cachier: false
+provisioner:
+  playbooks:
+    prepare: prepare.yml
+    converge: playbook.yml

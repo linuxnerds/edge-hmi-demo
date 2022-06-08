@@ -1,0 +1,17 @@
+extends: default
+
+rules:
+  line-length:
+    max: 120
+    level: warning
+  document-start:
+    present: false
+    level: error
+  comments:
+    require-starting-space: false
+
+ignore: |
+  .tox
+  samples/
+  .cache
+  plugins/ceph_ansible

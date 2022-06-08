@@ -1,0 +1,5 @@
+driver:
+  name: containers
+platforms:
+  - name: register_idm_docker
+    image: centos:7

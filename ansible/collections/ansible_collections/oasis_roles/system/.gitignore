@@ -1,0 +1,16 @@
+# Typical temporary files
+.*.swp
+.*.swo
+*.pyc
+*.pyo
+__pycache__
+
+# Build artifacts
+*.tar.gz
+.tox
+junit.xml
+.cache
+
+# Ansible Tower license files
+roles/ansible_tower/molecule/default/license.json
+roles/ansible_tower/molecule/default/license_manifest.zip

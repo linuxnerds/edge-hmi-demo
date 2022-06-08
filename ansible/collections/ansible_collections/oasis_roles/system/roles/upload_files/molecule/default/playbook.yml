@@ -1,0 +1,14 @@
+- name: converge
+  hosts: all
+  roles:
+    - role: upload_files
+      upload_files:
+        - src: "{{ role_path }}/tasks/main.yml"
+          dest: /main.yml
+        - content: DERP!
+          dest: /derp
+          owner: root
+          group: wheel
+        - src: "{{ role_path }}/tasks/main.yml"
+          dest: /path/does/not/exist/main.yml
+      upload_files_become: true

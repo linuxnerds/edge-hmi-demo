@@ -1,0 +1,7 @@
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+platforms:
+  - name: libvirtd-oracle8
+    box: generic/oracle8

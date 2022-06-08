@@ -1,0 +1,12 @@
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+platforms:
+  - name: libvirtd-fedora
+    box: generic/fedora34
+provisioner:
+  inventory:
+    host_vars:
+      libvirtd_fedora:
+        ansible_user: fedora
