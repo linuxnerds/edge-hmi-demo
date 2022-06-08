@@ -1,0 +1,21 @@
+---
+- name: Create aws instance
+  amazon.aws.ec2_instance:
+    region: "{{ aws_region }}"
+    name: "{{ aws_instance }}"
+    key_name: "{{ aws_key }}"
+    vpc_subnet_id: "{{ aws_subnet_id }}"
+    instance_type: "{{ aws_instance_type }}"
+    security_group: "{{ aws_security_group }}"
+    network:
+      assign_public_ip: true
+    image_id: "{{ aws_image_id }}"
+    tags:
+      Environment: "{{ tags.environment }}"
+      AnsibleGroup: "{{ tags.AnsibleGroup }}"
+
+- amazon.aws.ec2_instance_info:
+    region: "{{ aws_region }}"
+  register: instances_info
+
+- debug: var=instances_info
