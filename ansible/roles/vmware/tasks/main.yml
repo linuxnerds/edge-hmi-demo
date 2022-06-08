@@ -1,0 +1,17 @@
+---
+- name: Create a virtual machine from a template
+  community.vmware.vmware_guest:
+    hostname: "{{ esxi_hostname }}"
+    datacenter: "{{ datacenter_name }}"
+    validate_certs: no
+    folder: "{{ vcsa_folder }}"
+    name: "{{ host_hostname }}"
+    state: poweredon
+    template: "{{ host_template }}"
+    disk:
+    - size_gb: "{{ host_disk_size }}"
+      type: "{{ host_disk_type }}"
+      datastore: "{{ esxi_datastore }}"
+    hardware:
+      memory_mb: "{{ memory_mb }}"
+      num_cpus: "{{ num_cpus }}"

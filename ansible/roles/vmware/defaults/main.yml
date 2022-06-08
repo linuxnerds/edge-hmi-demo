@@ -1,0 +1,12 @@
+---
+# defaults file for vmware
+esxi_hostname: "{{ esxi_hostname }}"
+datacenter_name: 'Workload Datacenter'
+#vcsa_folder: 'Workload Cluster'
+host_hostname: 'hmi-device.hmidemo.com'
+host_template: rhel8-gui
+host_disk_size: 80
+host_disk_type: 'thin'
+esxi_datastore: ACMCICD-DS00
+memory_mb: 8192
+num_cpus: 4
