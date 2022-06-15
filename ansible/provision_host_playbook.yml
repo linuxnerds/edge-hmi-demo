@@ -1,0 +1,7 @@
+---
+- name: Configure kiosk mode on hmi devices
+  hosts: test_nodes
+  gather_facts: False
+  become: yes
+  roles:
+    - kiosk_mode
