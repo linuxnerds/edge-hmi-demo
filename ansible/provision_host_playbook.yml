@@ -1,7 +1,74 @@
 ---
-- name: Configure kiosk mode on hmi devices
-  hosts: test_nodes
-  gather_facts: False
-  become: yes
-  roles:
-    - kiosk_mode
+- name: Provision HMI nodes
+  hosts: localhost
+  tasks:
+    - name: Create HMI nodes
+      when: ACTION |default('provision') == "provision"
+      block:
+        - name: Gather bastion info
+          amazon.aws.ec2_instance_info:
+            region: "{{ aws_region }}"
+            filters:
+              tag:Name: bastion
+          register: r_bastion
+
+        - name: Create HMI node ec2 group
+          amazon.aws.ec2_group:
+            name: hmi_security_group
+            description: hmi nodes security group
+            vpc_id: "{{ r_bastion.instances.0.vpc_id  }}"
+            region: "{{ aws_region }}"
+            rules:
+              - proto: tcp
+                ports:
+                  - 5900-5905
+                  - 8088
+                  - 22
+                cidr_ip: 0.0.0.0/0
+
+        - name: Create HMI instances
+          amazon.aws.ec2_instance:
+            region: "{{ aws_region }}"
+            name: "{{ item }}"
+            key_name: "{{ r_bastion.instances.0.key_name }}"
+            vpc_subnet_id: "{{ r_bastion.instances.0.subnet_id  }}"
+            instance_type: t3.medium
+            security_group: hmi_security_group
+            network:
+              assign_public_ip: true
+            image_id: "{{ r_bastion.instances.0.image_id  }}"
+            volumes:
+            - device_name: /dev/sda1
+              ebs:
+                volume_size: 50
+                delete_on_termination: true
+            tags:
+              AnsibleGroup: hmi_nodes
+              Environment: demo
+              NodeName: "{{ item }}"
+          loop: "{{ hmi_nodes }}"
+
+        - name: Gather HMI node's info
+          amazon.aws.ec2_instance_info:
+            region: "{{ aws_region }}"
+            filters:
+              tag:AnsibleGroup: hmi_nodes
+          register: r_hmi_nodes
+
+        - name: Print HMI instance name
+          debug:
+            msg: "{{ item.tags.Name }}"
+          loop: "{{ r_hmi_nodes.instances }}"
+
+    - name: Destroy HMI nodes
+      when: ACTION |default('provision') == "destroy"
+      block:
+        - name: Destroy HMI instances
+          amazon.aws.ec2_instance:
+            region: "{{ aws_region }}"
+            filters:
+                tag:Name: "{{ item }}"
+            state: absent
+          loop: "{{ hmi_nodes }}"
+
+            
