@@ -1,0 +1,61 @@
+---
+# tasks file for tigervnc
+
+- name: install tiger vnc
+  ansible.builtin.yum:
+    name: tigervnc-server
+    state: present
+  poll: 30
+  async: 3600
+
+- name: Map user to display and port no
+  lineinfile:
+    path: /etc/tigervnc/vncserver.users
+    regexp: 'EOF'
+    line: ":2=kiosk"
+
+- name: Configure tigervnc file
+  lineinfile:
+    path: /etc/tigervnc/vncserver-config-defaults
+    regexp: 'EOF'
+    line: |
+      session=gnome
+      alwaysshared
+
+- name: Configure vnc user
+  become_user: kiosk
+  block:
+    - name: Create vnc directory
+      file:
+        path: /home/kiosk/.vnc/
+        state: directory
+        owner: kiosk
+        group: kiosk
+
+    - name: Set vncpassword for kiosk
+      become_user: kiosk
+      expect:
+        command: vncpasswd /home/kiosk/.vnc/passwd
+        responses:
+          (?i)password: "r3dh4t1!"
+          (?i)verify: "r3dh4t1!"
+          (?i)\(y/n\): "n"
+
+    - name: Restore selinux context
+      command: restorecon -RFv ~/.vnc
+
+- name: Start vnc server
+  service:
+    name: vncserver@:2
+    enabled: true
+    state: started
+
+- name: permit traffic in default zone for vnc server
+  ansible.posix.firewalld:
+    service: vnc-server
+    permanent: yes
+    state: enabled
+
+
+- name: reboot the machine with all defaults to deploy the changes
+  reboot:
