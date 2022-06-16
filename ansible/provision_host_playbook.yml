@@ -64,6 +64,7 @@
           loop: "{{ r_hmi_nodes.instances }}"
 
         - name: wait for host to be available
+          when: item.state.name == "running"
           wait_for:
             host: "{{ item.public_dns_name }}"
             port: 22
