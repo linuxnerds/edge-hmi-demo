@@ -29,8 +29,6 @@
       file:
         path: /home/kiosk/.vnc/
         state: directory
-        owner: kiosk
-        group: kiosk
 
     - name: Set vncpassword for kiosk
       become_user: kiosk
@@ -55,7 +53,6 @@
     service: vnc-server
     permanent: yes
     state: enabled
-
 
 - name: reboot the machine with all defaults to deploy the changes
   reboot:
