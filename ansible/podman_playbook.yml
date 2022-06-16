@@ -11,11 +11,23 @@
     container_port_mapping: "8088:8088"
     container_extra_params: "--privileged -e GATEWAY_ADMIN_PASSWORD=redhat"
   tasks:
+    - name: Install podman
+      dnf:
+        name: podman
+        state: installed
+
+    - name: Run container
+      containers.podman.podman_container:
+        name: container
+        image: docker.io/library/ubi-ignition
+        state: started
+
     - name: Login to default registry and create ${XDG_RUNTIME_DIR}/containers/auth.json
       containers.podman.podman_login:
         username: "{{ podman_username }}"
         password: "{{ podman_password }}"
         registry: quay.io
+
     - name: import container_lifecycle role
       ansible.builtin.import_role:
         name: container_lifecycle
