@@ -47,7 +47,7 @@
               AnsibleGroup: hmi_nodes
               Environment: demo
               NodeName: "{{ item }}"
-          loop: "{{ hmi_nodes }}"
+          loop: "{{ hmi_nodes.split('\n') }}"
 
         - name: Gather HMI node's info
           amazon.aws.ec2_instance_info:
@@ -70,6 +70,6 @@
             filters:
                 tag:Name: "{{ item }}"
             state: absent
-          loop: "{{ hmi_nodes }}"
+          loop: "{{ hmi_nodes.split('\n') }}"
 
             
