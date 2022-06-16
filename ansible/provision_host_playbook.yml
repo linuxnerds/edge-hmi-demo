@@ -47,6 +47,8 @@
               AnsibleGroup: hmi_nodes
               Environment: demo
               NodeName: "{{ item }}"
+            state: running
+            wait: yes
           loop: "{{ hmi_nodes.split('\n') }}"
 
         - name: Gather HMI node's info
