@@ -63,6 +63,14 @@
             msg: "{{ item.tags.Name }}"
           loop: "{{ r_hmi_nodes.instances }}"
 
+        - name: wait for host to be available
+          wait_for:
+            host: "{{ item.public_dns_name }}"
+            port: 22
+            timeout: 300
+            delay: 10
+          loop: "{{ r_hmi_nodes.instances }}"
+
     - name: Destroy HMI nodes
       when: ACTION |default('provision') == "destroy"
       block:
