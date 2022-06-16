@@ -23,6 +23,7 @@
         state: started
 
     - name: Login to default registry and create ${XDG_RUNTIME_DIR}/containers/auth.json
+      when: use_quay_login |default(false) |bool
       containers.podman.podman_login:
         username: "{{ podman_username }}"
         password: "{{ podman_password }}"
