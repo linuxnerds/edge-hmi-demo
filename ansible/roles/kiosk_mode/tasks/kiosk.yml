@@ -5,6 +5,9 @@
     name: "{{ inventory_hostname.split('.')[0] }}"
 
 - name: Register as user with password and auto-subscribe to available content.
+  when:
+    - rhsm_username is defined
+    - rhsm_password is defined
   community.general.redhat_subscription:
     state: present
     username: "{{ rhsm_username }}"
