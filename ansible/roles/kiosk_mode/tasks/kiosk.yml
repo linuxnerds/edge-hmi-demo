@@ -31,6 +31,7 @@
     state: present
     shell: /bin/bash
     uid: 2000
+    password: "{{ 'r3dh4t!1' | password_hash('sha512') }}"
     group: users
     create_home: yes
     skeleton: true
