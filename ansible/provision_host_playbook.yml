@@ -1,6 +1,7 @@
 ---
 - name: Provision HMI nodes
   hosts: localhost
+  gather_facts: false
   tasks:
     - name: Create HMI nodes
       when: ACTION |default('provision') == "provision"
