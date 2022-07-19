@@ -1,0 +1,49 @@
+---
+# tasks file for tigervnc
+
+- name: install epel repo
+  ansible.builtin.yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+    disable_gpg_check: yes
+    state: present
+
+- name: Update node
+  ansible.builtin.yum:
+    name: "*"
+    disable_gpg_check: yes
+    state: latest
+
+- name: install snapd
+  ansible.builtin.yum:
+    name: snapd
+    disable_gpg_check: yes
+    state: latest
+
+- name: Start snapd socket
+  service:
+    name: snapd.socket
+    enabled: true
+    state: started
+
+- name: Create a symlink
+  ansible.builtin.file:
+    src: /var/lib/snapd/snap
+    dest: /snap
+    state: link
+
+- name: Install snap novnc
+  snap:
+    name: novnc
+    state: present
+
+- name: Start noVNC as service
+  shell: >-
+    snap set novnc
+    services.n6080.listen=6080
+    services.n6080.vnc=localhost:5902
+
+- name: permit traffic in default zone for vnc server
+  ansible.posix.firewalld:
+    port: 6080/tcp
+    permanent: yes
+    state: enabled

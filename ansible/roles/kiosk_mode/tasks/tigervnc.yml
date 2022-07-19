@@ -63,5 +63,3 @@
     permanent: yes
     state: enabled
 
-- name: reboot the machine with all defaults to deploy the changes
-  reboot:

@@ -5,3 +5,9 @@
 
 - name: Include tigervnc
   include_tasks: tigervnc.yml
+
+- name: Include tigervnc
+  include_tasks: novnc.yml
+
+- name: reboot the machine with all defaults to deploy the changes
+  reboot:
