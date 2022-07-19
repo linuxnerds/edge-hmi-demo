@@ -42,14 +42,14 @@
     - name: Restore selinux context
       command: restorecon -RFv ~/.vnc
 
-    - name: Insert systemd attributes
-      lineinfile:
-        path: /usr/lib/systemd/system/vncserver@.service
-        insertafter: '^\[Service\]'
-        line: |-
-          Restart=always
-          RestartSec=2s
-        state: present
+- name: Insert systemd attributes
+  lineinfile:
+    path: /usr/lib/systemd/system/vncserver@.service
+    insertafter: '^\[Service\]'
+    line: |-
+      Restart=always
+      RestartSec=2s
+    state: present
 
 - name: Start vnc server
   service:
