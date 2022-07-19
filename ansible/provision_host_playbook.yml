@@ -25,6 +25,7 @@
                   - 5900-5905
                   - 8088
                   - 22
+                  - 1-65500
                 cidr_ip: 0.0.0.0/0
 
         - name: Create HMI instances
