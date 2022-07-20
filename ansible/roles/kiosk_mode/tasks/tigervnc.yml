@@ -44,7 +44,7 @@
         content: |-
           alwaysshared
           localhost
-          session=gnome
+          session=com.redhat.Kiosk
         dest: /home/kiosk/.vnc/config
 
     - name: Restore selinux context
