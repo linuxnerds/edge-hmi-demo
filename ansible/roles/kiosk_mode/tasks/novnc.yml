@@ -32,7 +32,7 @@
     state: link
 
 - pause:
-    seconds: 40
+    seconds: 120
 
 - name: Install snap novnc
   snap:
