@@ -39,6 +39,14 @@
           (?i)verify: "r3dh4t1!"
           (?i)\(y/n\): "n"
 
+    - name: Create vnc config
+      copy:
+        content: |-
+          alwaysshared
+          localhost
+          session=gnome
+        dest: /home/kiosk/.vnc/config
+
     - name: Restore selinux context
       command: restorecon -RFv ~/.vnc
 
