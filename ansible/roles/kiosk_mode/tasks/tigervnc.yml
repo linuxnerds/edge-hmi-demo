@@ -59,6 +59,9 @@
       RestartSec=2s
     state: present
 
+- name: Reload systemd daemon
+  command: /usr/bin/systemctl daemon-reload
+
 - name: Start vnc server
   service:
     name: vncserver@:2
