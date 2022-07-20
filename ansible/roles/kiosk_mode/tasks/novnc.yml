@@ -31,6 +31,9 @@
     dest: /snap
     state: link
 
+- pause:
+    seconds: 40
+
 - name: Install snap novnc
   snap:
     name: novnc
