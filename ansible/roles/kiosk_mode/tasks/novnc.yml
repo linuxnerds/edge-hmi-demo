@@ -31,13 +31,20 @@
     dest: /snap
     state: link
 
-- pause:
-    seconds: 120
+- name: Find novnc 
+  shell:  /usr/bin/snap list | awk '{print $1}' |grep novnc
+  register: r_shell
+  ignore_errors: true
 
 - name: Install snap novnc
   snap:
     name: novnc
     state: present
+  register: r_snap
+  when: r_shell.stdout == ''
+  until: r_snap.rc == 0
+  retries: 60
+  delay: 10
 
 - name: Start noVNC as service
   shell: >-
