@@ -15,7 +15,6 @@ spec:
   projects_persistence: false
   replicas: 1
   admin_user: admin
-  admin_password_secret: aap-admin-password
   init_container_image: registry.access.redhat.com/ubi8/ubi
   init_container_image_version: latest
   init_container_extra_commands: |
